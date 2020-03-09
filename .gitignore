@@ -33,3 +33,7 @@
 *.exe
 *.out
 *.app
+
+build/*
+build/Wii_On_Rails.elf.map
+build/Wii_On_Rails.elf.map

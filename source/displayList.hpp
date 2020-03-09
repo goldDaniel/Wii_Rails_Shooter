@@ -5,7 +5,7 @@
 
 struct DisplayList
 {
-    void* data;
+    void* data = 0;
     u32 sizeInBytes;
 
     ~DisplayList()
