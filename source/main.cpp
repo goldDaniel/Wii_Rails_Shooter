@@ -6,13 +6,14 @@
 #include <wiiuse/wpad.h>
 
 #include "graphics.hpp"
+#include "displayModel.hpp"
 
 #define DEFAULT_FIFO_SIZE	(256*1024)
 
 ir_t ir;
 
 
-Renderer::DisplayModel* model;
+DisplayModel* model;
 
 
 void initialize()
@@ -28,9 +29,6 @@ void initialize()
 int main(int argc, char **argv)
 {
 	Mtx view;
-	Mtx44 perspective;
-
-	float rtri = 0.0f , rquad = 0.0f;
 
 	Renderer::Initialize();
 	initialize();
@@ -38,9 +36,9 @@ int main(int argc, char **argv)
 
 	// setup our camera at the origin
 	// looking down the -z axis with y up
-	guVector cam = {0.0F, 0.0F, 0.0F},
-			up = {0.0F, 1.0F, 0.0F},
-		  look = {0.0F, 0.0F, -1.0F};
+	guVector  cam = {0.0F, 0.0F, 1.0F};
+	guVector   up = {0.0F, 1.0F, 0.0F};
+	guVector look = {0.0F, 0.0F, 0.0F};
 	guLookAt(view, &cam, &up, &look);
 
 
@@ -49,13 +47,10 @@ int main(int argc, char **argv)
 	// and aspect ratio based on the display resolution
 	Renderer::SetProjectionMatrix(45, (f32)640/(f32)480, 0.1f, 300.f);
 
-	guVector triAxis = {0,1,0};
-
-	model = new Renderer::DisplayModel();
+	model = new DisplayModel();
 
 	while(1) 
 	{
-		
 		WPAD_ScanPads();
 		WPAD_IR(0, &ir);
 		
@@ -67,24 +62,17 @@ int main(int argc, char **argv)
 		if (buttonsDown & WPAD_BUTTON_HOME) exit(0);
 
 		Renderer::BeginFrame();
-		
-
 
 		model->draw(view);
+
 		GX_DrawDone();
 
 		Renderer::DrawBox((u32*)Renderer::GetCurrentFrameBuffer(), 
-						  ir.x - 5, ir.y - 3, 
-						  ir.x + 3, ir.y + 5, 
-						  COLOR_RED);
+						   ir.x - 5, ir.y - 3, 
+						   ir.x + 3, ir.y + 5, 
+						   COLOR_RED);
 	
 		Renderer::EndFrame();
-
-		
-
-		rtri+=0.2f;				// Increase The Rotation Variable For The Triangle ( NEW )
-		rquad-=0.15f;			// Decrease The Rotation Variable For The Quad     ( NEW )
-
 	}
 	return 0;
 }

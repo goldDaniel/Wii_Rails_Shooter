@@ -1,5 +1,5 @@
 #include "graphics.hpp"
-
+#include "displayModel.hpp"
 
 #include <stdio.h>
 #include <gccore.h>
@@ -13,6 +13,7 @@ static u32 fbIndex = 0;
 static void *frameBuffer[2] = { NULL, NULL};
 
 static GXRModeObj *rmode;
+
 
 void Renderer::Initialize()
 {
@@ -75,7 +76,7 @@ void Renderer::SetProjectionMatrix(f32 fov, f32 ratio, f32 near, f32 far)
 	GX_LoadProjectionMtx(perspective, GX_PERSPECTIVE);   
 }
 
-Renderer::DisplayList* Renderer::AllocatePyramidDisplayList()
+DisplayList* Renderer::AllocatePyramidDisplayList()
 {
     // setup the vertex descriptor
     // tells the flipper to expect direct data
