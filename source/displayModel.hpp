@@ -7,13 +7,16 @@
 class DisplayModel
 {
 private:
-    Mtx transform;
+    guVector position;
+    
     DisplayList* displayList;
 
 public:
     DisplayModel();
     ~DisplayModel();
 
+
+    
     void translate(f32 x, f32 y, f32 z);
     void draw(Mtx view);
 };

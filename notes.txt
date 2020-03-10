@@ -1,0 +1,48 @@
+//GRAPHICS/////////////////////////////////////////////////////////////////
+//GRAPHICS/////////////////////////////////////////////////////////////////
+//GRAPHICS/////////////////////////////////////////////////////////////////
+//GRAPHICS/////////////////////////////////////////////////////////////////
+//GRAPHICS/////////////////////////////////////////////////////////////////
+// For display lists, each command has an associated "cost" in bytes.
+// Add all these up to calculate the size of your display list before rounding up.
+// GX_Begin() costs 3 bytes (u8 + u16)
+// GX_Position3f32() is 12 bytes (f32*3)
+// GX_Normal3f32() is 12 bytes (f32*3)
+// GX_Color3f32() is actually 3 bytes ((f32 -> u8) * 3)
+// GX_TexCoord2f32() is 8 bytes (f32*2)
+// GX_End() seems to cost zero (there's no actual code in it)
+// Size -must- be multiple of 32, so (12*24) + (12*24) + (3*24) + (8*24) + 3 = 843
+// Rounded up to the nearest 32 is 864.
+// NOTE: Actual size may be up to 63 bytes -larger- than you calculate it to be 
+//       due to padding and cache alignment.
+//GRAPHICS/////////////////////////////////////////////////////////////////
+//GRAPHICS/////////////////////////////////////////////////////////////////
+//GRAPHICS/////////////////////////////////////////////////////////////////
+//GRAPHICS/////////////////////////////////////////////////////////////////
+//GRAPHICS/////////////////////////////////////////////////////////////////
+
+//MEMORY/////////////////////////////////////////////////////////////////
+//MEMORY/////////////////////////////////////////////////////////////////
+//MEMORY/////////////////////////////////////////////////////////////////
+//MEMORY/////////////////////////////////////////////////////////////////
+//MEMORY/////////////////////////////////////////////////////////////////
+The new and delete operators must be handled with caution when C++ code is used on the Wii console.
+The new and delete operators provided by the Metrowerks Standard C++ Library (MSL C++), included
+with Metrowerks CodeWarrior, will be used by default. On the first invocation of the new operator after the
+application has started, a heap will be created for the new and delete operators to use. The entire MEM1
+arena region will be assigned as the heap for new and delete. These operators are also implemented to
+call the OSAlloc and OSFree functions internally (see $CW_FOLDER/PowerPC_EABI_Support/
+Runtime/Src/GCN_mem_alloc.c).
+As a result, you will run into the following complications if you use the default new and delete operators.
+• The new and delete operators will only be able to use a heap allocated from the MEM1 arena region.
+• It will not be possible to allocate a heap if the new operator is invoked without a MEM1 arena region.
+• It will not be possible to allocate arena regions from MEM1 after the new operator has been invoked
+when a MEM1 arena region exists.
+To avoid these problems when writing C++ code for the Wii console, you must override the new and
+delete operators in your application. You can use the memory management functions provided by the
+OS and MEM libraries within these operators.
+//MEMORY/////////////////////////////////////////////////////////////////
+//MEMORY/////////////////////////////////////////////////////////////////
+//MEMORY/////////////////////////////////////////////////////////////////
+//MEMORY/////////////////////////////////////////////////////////////////
+//MEMORY/////////////////////////////////////////////////////////////////

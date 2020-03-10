@@ -4,7 +4,7 @@
 #include "input.hpp"
 #include "displayModel.hpp"
 
-DisplayModel* model;
+
 
 int main(int argc, char **argv)
 {
@@ -20,14 +20,17 @@ int main(int argc, char **argv)
 
 	Renderer::SetProjectionMatrix(45, (f32)640/(f32)480, 0.1f, 300.f);
 
-	model = new DisplayModel();
+	DisplayModel* model = new DisplayModel();
 
-	while(1) 
+
+	bool running = true;
+
+	while(running) 
 	{
 		Input::ControllerState state = Input::PollController(0);
 
 		Renderer::BeginFrame();
-
+		
 		model->draw(view);
 
 		GX_DrawDone();

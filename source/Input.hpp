@@ -12,9 +12,6 @@ namespace Input
 		u16 buttonsUp = 0;
     };
 
-
-    
-
     void Initialize()
     {
         WPAD_Init();
