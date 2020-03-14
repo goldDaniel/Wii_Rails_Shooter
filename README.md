@@ -2,6 +2,7 @@
 ### A Rail shooter homebrew for the Nintendo Wii
 
 ## Resources
+* libOGC: https://libogc.devkitpro.org/modules.html
 * Input: https://pokeacer.xyz/wii/pdf/PAD.pdf
 * Math: https://pokeacer.xyz/wii/pdf/MTX.pdf
 * Operating System: https://pokeacer.xyz/wii/pdf/OS.pdf
